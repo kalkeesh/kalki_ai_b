@@ -1,0 +1,128 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>kalki ai</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+<style>
+    body {
+        background-color: #1a1a1a;
+        color: #ffd700;
+        font-family: 'Arial', sans-serif;
+    }
+    .container {
+        max-width: 800px;
+    }
+    .card {
+        background-color: #2a2a2a;
+        border: 2px solid #ffd700;
+        border-radius: 20px;
+        box-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
+    }
+    .card-header {
+        background-color: #ffd700;
+        color: #1a1a1a;
+        border-top-left-radius: 18px;
+        border-top-right-radius: 18px;
+    }
+    .btn-generate {
+        background-color: #ffd700;
+        color: #1a1a1a;
+        border: none;
+        transition: all 0.3s ease;
+    }
+    .btn-generate:hover {
+        background-color: #ffed4a;
+        color: #1a1a1a;
+        transform: scale(1.05);
+    }
+    .form-control {
+        background-color: #3a3a3a;
+        color: #ffd700;
+        border: 1px solid #ffd700;
+    }
+    .form-control:focus {
+        background-color: #3a3a3a;
+        color: #ffd700;
+        border-color: #ffed4a;
+        box-shadow: 0 0 0 0.2rem rgba(255, 215, 0, 0.25);
+    }
+    .result {
+        background-color: #3a3a3a;
+        border-radius: 10px;
+        padding: 15px;
+    }
+    /* Footer styles */
+    footer {
+        background-color: #2a2a2a;
+        color: #ffd700;
+        text-align: center;
+        padding: 20px 0;
+        position: relative;
+        bottom: 0;
+        width: 100%;
+        margin-top: 20px;
+    }
+    .social-icons a {
+        color: #ffd700;
+        margin: 0 10px;
+        text-decoration: none;
+        transition: text-shadow 0.3s ease;
+    }
+    .social-icons a:hover {
+        text-shadow: 0 0 10px #ffd700, 0 0 20px #ffd700;
+    }
+</style>
+</head>
+<body style="font-family: serif;">
+    <div class="container py-5">
+        <div class="card">
+            <div class="card-header">
+                <h1 class="text-center mb-0" style="font-family: Georgia, serif;">Kalki AI</h1>
+            </div>
+            <div class="card-body">
+                <div class="mb-3">
+                    <label for="prompt" class="form-label">Ask Me Anything:</label>
+                    <textarea class="form-control" id="prompt" rows="3" placeholder="Type your prompt here..."></textarea>
+                </div>
+                <button onclick="generateText()" class="btn btn-generate w-100 py-2 mb-3">Generate</button>
+                <div class="result" id="result"></div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>Powered by Gemini AI</p>
+        <p>Credits: <a href="https://kalkeesh.github.io/" style="color: #ffd700;">Kalkeesh Jami</a></p>
+        <div class="social-icons">
+            <a href="https://github.com/kalkeesh" target="_blank"><i class="fab fa-github fa-2x"></i></a>
+            <a href="https://www.linkedin.com/in/kalkeesh-jami-42891b260/" target="_blank"><i class="fab fa-linkedin fa-2x"></i></a>
+            <a href="https://www.instagram.com/kalkii._._/" target="_blank"><i class="fab fa-instagram fa-2x"></i></a>
+            <a href="https://kalkeesh.github.io/" target="_blank"><i class="fas fa-briefcase fa-2x"></i></a>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        async function generateText() {
+            const prompt = document.getElementById('prompt').value;
+            
+            const response = await fetch('http://127.0.0.1:8000/generate', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ prompt })
+            });
+    
+            const data = await response.json();
+            const decodedText = atob(data.text);
+            
+            document.getElementById('result').innerText = decodedText;
+        }
+    </script>
+</body>
+</html>
